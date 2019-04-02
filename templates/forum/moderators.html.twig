@@ -1,0 +1,59 @@
+{% extends 'forum/base.html.twig' %}
+
+{% block page_classes %}
+  forum-moderators-page
+{% endblock %}
+
+{% block title %}
+  {{ 'forum_moderators.title'|trans({'%forum_name%': forum.name}) }}
+{% endblock %}
+
+{% block head %}
+  {{ parent() }}
+  {{ include('_includes/meta_pagination.html.twig', {pager: moderators}, with_context=false) }}
+{% endblock %}
+
+{% block body %}
+  <h1 class="page-heading">{{ block('title') }}</h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{{ 'forum_moderators.username'|trans }}</th>
+        <th class="table__shrink">{{ 'forum_moderators.since'|trans }}</th>
+        <th class="table__shrink">{{ 'forum_moderators.last_seen'|trans }}</th>
+        <th class="table__shrink"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for moderator in moderators %}
+      <tr>
+        <td><a href="{{ path('user', {username: moderator.user.username}) }}">{{ moderator.user.username }}</a></td>
+        <td class="table__shrink">
+          <time datetime="{{ moderator.timestamp|date('c') }}" title="{{ moderator.timestamp|localizeddate('long', 'short') }}" class="relative-time">
+            {{ moderator.timestamp|localizeddate('long', 'short') }}
+          </time>
+        </td>
+        <td class="table__shrink">
+          {% if moderator.user.lastSeen is not null %}
+          <time datetime="{{ moderator.user.lastSeen|date('c') }}" title="{{ moderator.user.lastSeen|localizeddate('long', 'short') }}" class="relative-time">
+            {{ moderator.user.lastSeen|localizeddate('long', 'short') }}
+          </time>
+          {% endif %}
+        </td>
+        <td class="table__shrink">
+          {% if is_granted('remove', moderator) %}
+            <form action="{{ path('remove_moderator', {forum_name: forum.name, moderator_id: moderator.id}) }}" method="post">
+              <input type="hidden" name="token" value="{{ csrf_token('remove_moderator') }}">
+              <button class="button button--inline">{{ 'action.remove'|trans }}</button>
+            </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {{ include('_includes/pagination.html.twig', {pager: moderators}, with_context=false) }}
+{% endblock %}
+

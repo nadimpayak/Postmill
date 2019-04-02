@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'user_settings.title'|trans({'%username%': user.username}) %}
+{% block page_classes 'user-settings-page' %}
+
+{% form_theme form '_forms/aligned_form_theme.html.twig' %}
+
+{% block body %}
+  <h1 class="page-heading">{{ block('title') }}</h1>
+
+  {{ form_start(form) }}
+    <fieldset class="fieldset">
+      <legend>{{ 'label.general'|trans }}</legend>
+
+      {{ form_row(form.locale) }}
+
+      {{ form_row(form.front_page) }}
+
+      {{ form_row(form.openExternalLinksInNewTab) }}
+
+      {{ form_row(form.showThumbnails) }}
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend>{{ 'label.posting'|trans }}</legend>
+
+      {{ form_row(form.autoFetchSubmissionTitles) }}
+
+      {{ form_row(form.enablePostPreviews) }}
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend>{{ 'heading.notifications'|trans }}</legend>
+
+        {{ form_row(form.notifyOnReply) }}
+
+        {{ form_row(form.notifyOnMentions) }}
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend>{{ 'label.appearance'|trans }}</legend>
+
+      {{ form_row(form.preferred_theme, {attr: {class: 'select2'}}) }}
+
+      {{ form_row(form.show_custom_stylesheets) }}
+
+      {{ form_row(form.night_mode) }}
+    </fieldset>
+  {{ form_end(form) }}
+{% endblock %}

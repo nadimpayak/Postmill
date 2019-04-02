@@ -1,0 +1,16 @@
+@import (reference) '_mixins';
+@import (reference) '_variables';
+
+/*
+ * 1. Hide label in comment form.
+ */
+.comment-form .comment-row label {
+  display: none; /* 1 */
+}
+
+.comment-user.submitter {
+  background: var(--primary);
+  border-radius: 2px;
+  color: var(--primary-fg);
+  padding: 0 0.25rem;
+}

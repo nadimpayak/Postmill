@@ -1,0 +1,23 @@
+<?php
+
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@Symfony' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'braces' => [
+            'position_after_functions_and_oop_constructs' => 'same'
+        ],
+        'ordered_imports' => true,
+        'increment_style' => null,
+        'yoda_style' => [
+            'equal' => false,
+            'identical' => false,
+            'less_and_greater' => false,
+        ],
+    ])
+    ->setFinder(
+        PhpCsFixer\Finder::create()
+            ->in(__DIR__.'/config')
+            ->in(__DIR__.'/src')
+            ->in(__DIR__.'/tests')
+    );

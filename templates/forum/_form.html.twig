@@ -1,0 +1,17 @@
+{{ form_start(form) }}
+  {{ form_row(form.name) }}
+  {{ form_row(form.title) }}
+  {{ form_row(form.description) }}
+
+  {{ form_row(form.sidebar, {attr: {rows: 8}}) }}
+
+  {{ form_row(form.category) }}
+
+  {% if form.featured is defined %}
+    {{ form_row(form.featured) }}
+  {% endif %}
+
+  <div class="form__row form__button-row">
+    {{ form_widget(form.submit) }}
+  </div>
+{{ form_end(form) }}

@@ -1,0 +1,26 @@
+.icon {
+  line-height: 1;
+  vertical-align: text-bottom;
+
+  svg {
+    fill: currentColor;
+    height: 1em;
+    width: 1em;
+  }
+
+  &--spin {
+    svg {
+      animation: icon-spin 2s linear infinite;
+    }
+  }
+}
+
+@keyframes icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

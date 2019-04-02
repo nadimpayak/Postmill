@@ -1,0 +1,30 @@
+{
+    "private": true,
+    "devDependencies": {
+        "@symfony/webpack-encore": "^0.24.0",
+        "font-blast": "^0.7.0",
+        "fontello-cli": "git+https://git@gitlab.com/postmill/fontello-cli.git",
+        "less": "^3.9.0",
+        "less-loader": "^4.1.0",
+        "webpack-merge": "^4.2.1"
+    },
+    "dependencies": {
+        "@babel/polyfill": "^7.2.5",
+        "bazinga-translator": "^2.6.6",
+        "date-fns": "^1.30.1",
+        "highlight.js": "^9.15.6",
+        "jquery": "^3.3.1",
+        "lodash.debounce": "^4.0.8",
+        "normalize.css": "^8.0.1",
+        "select2": "^4.0.5",
+        "typeface-roboto": "0.0.54",
+        "typeface-roboto-mono": "0.0.54"
+    },
+    "scripts": {
+        "build-dev": "encore dev",
+        "build-prod": "encore production",
+        "lint": "npm run lint:js",
+        "lint:js": "eslint assets/js webpack.config.js",
+        "watch": "encore dev --watch"
+    }
+}

@@ -1,0 +1,262 @@
+{%- block comment -%}
+  {%- from 'vote/_macros.html.twig' import vote -%}
+  <article class="comment
+                  comment--{{ level > 1 ? 'nested' : 'top-level' }}
+                  {{ show_context ? 'comment--with-context' }}
+                  {{ comment.softDeleted ? 'comment--soft-deleted' }}"
+           id="comment_{{ comment.id }}"
+           data-level="{{ level }}">
+    {% if show_context %}
+      {{- block('comment_context') -}}
+    {% endif %}
+
+    <div class="comment__row">
+      <div class="comment__vote">
+        {{ vote(comment, 'comment_vote') }}
+      </div>
+
+      <div class="comment__main">
+        <h1 class="comment__info break-text">
+          {{ 'comments.info'|trans({
+            '%user%': block('comment_info_user'),
+            '%timestamp%': block('comment_info_timestamp'),
+          })|raw }}
+
+          {% if comment.editedAt %}
+            <span class="comment__edited-at {{ comment.moderated ? 'comment__moderated' }}">
+              {{ (comment.moderated ? 'comments.moderator_info' : 'comments.edit_info')|trans({
+                '%edited_at%': block('comment_info_edited_at')
+              })|raw }}
+            </span>
+          {% endif %}
+        </h1>
+
+        <div class="comment__body break-text">
+          {%- if raw_body is not null -%}
+            {{ raw_body|raw }}
+          {%- elseif comment.body is not null -%}
+            {{ comment.body|cached_markdown({ context: 'comment', comment: comment })|raw }}
+          {%- endif -%}
+        </div>
+
+        <nav class="comment__nav">
+          <ul>{{ block('comment_nav') }}</ul>
+        </nav>
+
+        {% if show_form and is_granted('ROLE_USER') %}
+          {% from 'comment/_macros.html.twig' import comment_form %}
+          {{ comment_form(comment.submission, comment) }}
+        {% endif %}
+      </div>
+    </div>
+
+    {% if recurse and comment.children|length > 0 %}
+      <div class="comment__replies">
+        {%- for reply in comment.children -%}
+          {%- with { comment: reply, level: level + 1 } -%}
+            {{- block('comment') -}}
+          {%- endwith -%}
+        {%- endfor -%}
+      </div>
+    {% endif %}
+  </article>
+{%- endblock comment -%}
+
+{% block comment_context %}
+  {% from 'user/_macros.html.twig' import user_link %}
+  {% with { submission: comment.submission, forum: comment.submission.forum } %}
+    <div class="comment__context break-text">
+      {% if comment.parent %}
+        <p>{{ 'comments.context.comment_reply'|trans({
+            '%comment_author%': user_link(comment.parent.user, {prefix: true}),
+            '%submission_title%': '<a href="%s">%s</a>'|format(
+              path('submission', {forum_name: forum.name, submission_id: submission.id})|e,
+              submission.title|e
+            ),
+            '%submission_author%': user_link(submission.user, {prefix: true}),
+          })|raw }}</p>
+      {% else %}
+        <p>{{ 'comments.context.top_level_reply'|trans({
+            '%submission_title%': '<a href="%s">%s</a>'|format(
+              path('submission', {forum_name: forum.name, submission_id: submission.id})|e,
+              submission.title|e
+            ),
+            '%submission_author%': user_link(submission.user, {prefix: true}),
+          })|raw }}</p>
+      {% endif %}
+    </div>
+  {% endwith %}
+{% endblock comment_context %}
+
+{%- block comment_info_user -%}
+  {%- from 'user/_macros.html.twig' import user_link -%}
+
+  {%- if not comment.softDeleted -%}
+    {{- user_link(comment.user, {
+      class: 'comment__author',
+      flag: comment.userFlag,
+      submitter: comment.user is same as(comment.submission.user),
+    }) -}}
+  {%- else -%}
+    {{- 'comments.author_deleted'|trans -}}
+  {%- endif -%}
+{%- endblock comment_info_user -%}
+
+{%- block comment_info_timestamp -%}
+  {%- set date = comment.timestamp|localizeddate('long', 'short') -%}
+  <time datetime="{{ comment.timestamp|date('c') }}"
+        title="{{ date }}"
+        class="comment__timestamp relative-time">
+    {{- 'comments.info_at_timestamp'|trans({'%timestamp%': date}) -}}
+  </time>
+{%- endblock comment_info_timestamp -%}
+
+{%- block comment_info_edited_at -%}
+  {%- set date = comment.editedAt|localizeddate('long', 'short') -%}
+  <time datetime="{{ comment.editedAt|date('c') }}"
+        title="{{ date }}"
+        class="comment__edit-timestamp relative-time-diff"
+        data-compare-to="{{ comment.timestamp|date('c') }}">
+    {{- 'comments.info_at_timestamp'|trans({'%timestamp%': date}) -}}
+  </time>
+{%- endblock comment_info_edited_at -%}
+
+{%- block comment_nav -%}
+  {{- block('comment_nav_reply') -}}
+  {{- block('comment_nav_permalink') -}}
+  {{- block('comment_nav_parent') -}}
+  {{- block('comment_nav_delete') -}}
+  {{- block('comment_nav_edit') }}
+  {{- block('comment_nav_ban') -}}
+  {{- block('comment_nav_ip_ban') -}}
+{%- endblock comment_nav -%}
+
+{%- block comment_nav_reply -%}
+  <li>
+    <a href="{{ path('comment', {
+      forum_name: comment.submission.forum.name,
+      submission_id: comment.submission.id,
+      comment_id: comment.id
+    }) }}" data-form-url="{{ path('comment_form', {
+      forumName: comment.submission.forum.name,
+      submissionId: comment.submission.id,
+      commentId: comment.id
+    }) }}" class="comment__reply-link">
+      {{- 'comments.reply'|trans -}}
+    </a>
+  </li>
+{%- endblock comment_nav_reply -%}
+
+{%- block comment_nav_permalink -%}
+  {%- filter spaceless -%}
+    <li>
+      <a href="{{ path('comment', {
+        forum_name: comment.submission.forum.name,
+        submission_id: comment.submission.id,
+        comment_id: comment.id
+      }) }}" class="comment__permalink">{{ 'comments.permalink'|trans }}</a>
+    </li>
+  {%- endfilter -%}
+{%- endblock comment_nav_permalink -%}
+
+{%- block comment_nav_parent -%}
+  {%- filter spaceless -%}
+    {%- if comment.parent -%}
+      <li>
+        <a href="{{ path('comment', {
+          forum_name: comment.submission.forum.name,
+          submission_id: comment.submission.id,
+          comment_id: comment.parent.id
+        }) }}" class="comment__parent-link">{{ 'comments.parent'|trans }}</a>
+      </li>
+    {%- endif -%}
+  {%- endfilter -%}
+{%- endblock comment_nav_parent -%}
+
+{# Forms are used here because we need to support JS-less browsing and because
+ # GET requests should never mutate the state of the application. #}
+{%- block comment_nav_delete -%}
+  {%- if comment.children|length > 0 and is_granted('delete_thread', comment) -%}
+    {%- set delete_thread_label = 'comments.delete_thread' -%}
+    {{- block('comment_nav_delete_thread') -}}
+    {{- block('comment_nav_delete_softdelete') -}}
+  {%- elseif is_granted('delete', comment) -%}
+    {%- set delete_thread_label = 'comments.delete' -%}
+    {{- block('comment_nav_delete_thread') -}}
+  {%- endif -%}
+{%- endblock comment_nav_delete -%}
+
+{%- block comment_nav_delete_softdelete -%}
+  {%- filter spaceless -%}
+    <li>
+      <form action="{{ path('softdelete_comment', {
+        forum_name: comment.submission.forum.name,
+        submission_id: comment.submission.id,
+        comment_id: comment.id,
+      }) }}" method="POST">
+        <input type="hidden" name="token" value="{{ csrf_token('softdelete_comment') }}">
+        <button type="submit" class="comment__soft-delete-button confirm-comment-delete">{{ 'comments.delete'|trans }}</button>
+      </form>
+    </li>
+  {%- endfilter -%}
+{%- endblock comment_nav_delete_softdelete -%}
+
+{%- block comment_nav_delete_thread -%}
+  {%- filter spaceless -%}
+    <li>
+      <form action="{{ path('delete_comment', {
+        forum_name: comment.submission.forum.name,
+        submission_id: comment.submission.id,
+        comment_id: comment.id,
+      }) }}" method="POST">
+        <input type="hidden" name="token" value="{{ csrf_token('delete_comment') }}">
+        <button type="submit"
+                class="comment__thread-delete-button confirm-comment-delete">
+          {{- delete_thread_label|trans -}}
+        </button>
+      </form>
+    </li>
+  {%- endfilter -%}
+{%- endblock comment_nav_delete_thread -%}
+
+{%- block comment_nav_edit -%}
+  {%- filter spaceless -%}
+    {%- if is_granted('edit', comment) -%}
+      <li>
+        <a href="{{ path('edit_comment', {
+          forum_name: comment.submission.forum.name,
+          submission_id: comment.submission.id,
+          comment_id: comment.id,
+        }) }}" class="comment__edit-link">
+          {{- 'comments.edit'|trans -}}
+        </a>
+      </li>
+    {%- endif -%}
+  {%- endfilter -%}
+{%- endblock comment_nav_edit -%}
+
+{%- block comment_nav_ban -%}
+  {%- if is_granted('moderator', comment.submission.forum) -%}
+    {%- filter spaceless -%}
+      <li>
+        <a href="{{ path('forum_ban', {forum_name: comment.submission.forum.name, username: comment.user.username}) }}"
+           class="comment__ban-link">
+          {{- 'action.ban'|trans -}}
+        </a>
+      </li>
+    {%- endfilter -%}
+  {%- endif -%}
+{%- endblock comment_nav_ban -%}
+
+{%- block comment_nav_ip_ban -%}
+  {%- if is_granted('ROLE_ADMIN') %}
+    {%- filter spaceless -%}
+      <li>
+        <a href="{{ path('ban_user', {'username': comment.user.username}) }}"
+           class="comment__ip-ban-link">
+          {{- 'action.global_ban'|trans -}}
+        </a>
+      </li>
+    {%- endfilter -%}
+  {%- endif -%}
+{%- endblock comment_nav_ip_ban -%}

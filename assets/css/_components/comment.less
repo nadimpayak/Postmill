@@ -1,0 +1,93 @@
+@import (reference) '../_mixins';
+
+/*
+ * <article class="comment">
+ *   <div class="comment__context">optional context thing</p>
+ *
+ *   <div class="comment__row">
+ *     <div class="comment__vote">...</div>
+ *
+ *     <div class="comment__main">
+ *       <h1 class="comment__info">...</h1>
+ *       <div class="comment__body">...</div>
+ *       <nav class="comment__nav">...</nav>
+ *     </div>
+ *   </div>
+ *
+ *   <!-- exists only with replies -->
+ *   <div class="comment__replies">
+ *     <article class="comment">...</article>
+ *     <article class="comment">...</article>
+ *   </div>
+ * </article>
+ */
+.comment {
+  background: var(--bg-page);
+  border: solid 1px var(--border-light);
+  border-left-width: 3px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  & .comment {
+    margin-left: 10px;
+  }
+
+  // new approach to borders - may or may not deprecate the old approach
+  &--with-context {
+    border-width: 0 0 1px;
+
+    & > .comment {
+      &__row {
+        border: solid var(--border-light);
+        border-width: 1px 1px 0;
+      }
+
+      &__replies {
+        border: solid var(--border-light);
+        border-width: 0 1px 0 1px;
+      }
+    }
+  }
+
+  &__context {
+    p {
+      .meta;
+      margin-bottom: 0;
+    }
+  }
+
+  &__row {
+    .vote-flex;
+    padding-top: 0.5rem;
+  }
+
+  &__replies {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0.5rem;
+  }
+
+  &__info {
+    .meta;
+    font-weight: normal;
+  }
+
+  &__body {
+    padding-right: 0.5rem;
+    max-width: var(--paragraph-width);
+  }
+
+  &__nav {
+    .meta-nav;
+
+    ul {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &--nested {
+    margin-bottom: 0.5rem;
+  }
+}
+

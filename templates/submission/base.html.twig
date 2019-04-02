@@ -1,0 +1,46 @@
+{% extends 'forum/base.html.twig' %}
+
+{% block title %}
+  {{ submission.title }}
+{% endblock %}
+
+{% block sidebar %}
+  <section class="sidebar__section submission-meta">
+    <p class="submission-meta__score">
+      <strong class="submission-meta__vote-total">
+        {{- 'submissions.total_votes'|trans({'%count%': submission.votes|length}) -}}
+      </strong>
+
+      <span class="submission-meta__vote-stats">
+        {{- 'submissions.vote_stats'|trans({
+          '%up%': submission.upvotes,
+          '%down%': submission.downvotes,
+        }) -}}
+      </span>
+    </p>
+
+    <p class="submission-meta__short-url">
+      <span>
+        {{ 'item.short_url'|trans }}
+      </span>
+
+      <span>
+        {{ url('submission_shortcut', {id: submission.id})|e }}
+      </span>
+    </p>
+  </section>
+
+  {{ parent() }}
+{% endblock %}
+
+{% block body %}
+  <nav class="submission-permalink-nav">
+    <ul>
+      <li>
+        <a href="{{ path('forum', {forum_name: forum.name}) }}">
+          {{ 'comments.return_to_forum'|trans({'%forum%': '/f/<strong>'~forum.name~'</strong>'})|raw -}}
+        </a>
+      </li>
+    </ul>
+  </nav>
+{% endblock %}

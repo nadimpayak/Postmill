@@ -1,0 +1,97 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+
+imports:
+    - ./ratelimit.yaml
+
+parameters:
+    days_to_keep_logs: 7
+    ratelimit_ip_whitelist: "%env(csv:RATELIMIT_WHITELIST)%"
+    submission_sort_modes: hot|new|top|controversial|most_commented
+    user_forum_creation_interval: 1 day
+    number_regex: '[1-9][0-9]{0,17}'
+    uuid_regex: '[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}'
+    wiki_page_regex: '[A-Za-z][A-Za-z0-9_-]*(/[A-Za-z][A-Za-z0-9_-]*)*'
+
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+        bind:
+            $defaultLocale: "%env(APP_LOCALE)%"
+            $enableWebhooks: "%env(bool:APP_ENABLE_WEBHOOKS)%"
+            $secret: "%env(APP_SECRET)%"
+            $siteName: "%env(SITE_NAME)%"
+        public: false
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../src/{DependencyInjection,Entity,Migrations}'
+
+    # controllers are imported separately to make sure they're public
+    # and have a tag that allows actions to type-hint services
+    App\Controller\:
+        resource: '../src/Controller'
+        public: true
+        tags: ['controller.service_arguments']
+
+    App\Command\ActivateMaintenanceMode:
+        $includeFilePath: "%kernel.project_dir%/var/maintenance.php"
+
+    App\EventListener\AjaxListener:
+        $serializer: "@serializer"
+
+    App\EventListener\LocaleListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 20 }
+            - { name: kernel.event_listener, event: security.interactive_login, method: onInteractiveLogin }
+            - { name: doctrine.event_listener, event: postUpdate }
+
+    App\EventListener\SubmissionImageListener:
+        $client: "@eight_points_guzzle.client.submission_image_client"
+        $filesystem: "@oneup_flysystem.submission_images_filesystem"
+
+    App\EventListener\WebhookListener:
+        $client: "@eight_points_guzzle.client.webhook_client"
+
+    App\Form\RequestPasswordResetType:
+        $bypass: "@=parameter('kernel.environment') === 'test'"
+
+    App\Form\UserSettingsType:
+        $availableLocales: "%env(csv:AVAILABLE_LOCALES)%"
+
+    App\Mailer\ResetPasswordMailer:
+        $noReplyAddress: "%env(NO_REPLY_ADDRESS)%"
+
+    App\Markdown\MarkdownConverter:
+        $cacheItemPool: "@cache.markdown"
+
+    App\Security\AuthenticationHelper:
+        $rememberMeServices: "@security.authentication.rememberme.services.simplehash.main"
+
+    App\Security\LoginAuthenticator:
+        $rateLimit: "@postmill.ratelimit.login"
+
+    App\Security\Voter\TokenVoter:
+        $forumCreationInterval: "%user_forum_creation_interval%"
+
+    App\Utils\IpRateLimitFactory:
+        $cache: "@cache.ratelimit"
+        $ipWhitelist: "%ratelimit_ip_whitelist%"
+
+    App\Utils\IpRateLimit:
+        class: App\Utils\IpRateLimit
+        factory: 'App\Utils\IpRateLimitFactory:create'
+        abstract: true
+
+    App\Validator\Constraints\RateLimitValidator:
+        $ipWhitelist: "%ratelimit_ip_whitelist%"
+
+    ## Misc
+
+    Doctrine\ORM\EntityManager: "@doctrine.orm.entity_manager"
+    Doctrine\ORM\EntityManagerInterface: "@doctrine.orm.default_entity_manager"

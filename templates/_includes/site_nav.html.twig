@@ -1,0 +1,192 @@
+{% from '_macros/icon.html.twig' import icon %}
+{% set route = app.request.attributes.get('_route') %}
+{% set notification_count = is_granted('ROLE_USER') ? app.user.notifications|length : 0 %}
+{% set search_query = app.request.query.get('q') %}
+{% if route != 'search' or search_query is iterable %}
+  {% set search_query = null %}
+{% endif %}
+
+{# TODO: make the templates of these routes responsible for setting the active
+   items themselves #}
+{% set active = null %}
+{% if route in ['front', 'featured', 'subscribed', 'all', 'moderated', 'comment_list'] %}
+  {% set active = 'home' %}
+{% elseif route in ['forum_list', 'forums_by_category'] %}
+  {% set active = 'forums' %}
+{% elseif route starts with 'wiki' %}
+  {% set active = 'wiki' %}
+{% elseif route in ['user_bans', 'ip_bans', 'ban_ip', 'create_forum_category', 'manage_forum_categories', 'users'] %}
+  {% set active = 'admin' %}
+{% elseif route in ['message_threads', 'notifications', 'message'] %}
+  {% set active = 'messages' %}
+{% elseif route == 'submit' %}
+  {% set active = 'submit' %}
+{% elseif is_granted('ROLE_USER') and app.request.pathInfo starts with '/user/%s'|format(app.user.username) %}
+  {% set active = 'user' %}
+{% endif -%}
+
+<nav class="site-nav">
+  <div class="site-nav__container">
+    <header class="site-nav__header">
+      <a href="{{ path('front') }}"
+         class="no-underline site-nav__link {{ active == 'home' ? 'site-nav__link--active' }}">
+        <span class="no-desktop">{{ icon('home') }}</span>
+        <b class="no-mobile no-underline__exempt">{{ site_name() }}</b>
+      </a>
+    </header>
+
+    <div class="site-nav__main-menu-container site-nav__mobile-hidden dropdown dropdown--mobile-only">
+      <button type="button" class="site-nav__link site-nav__mobile-toggle no-desktop dropdown__toggle">
+        {{- icon('menu') -}}
+      </button>
+
+      {# left portion of site nav #}
+      <ul class="site-nav__menu site-nav__main-menu unlistify dropdown__menu">
+        <li>
+          <a href="{{ path('forum_list') }}"
+             class="site-nav__link {{ active == 'forums' ? 'site-nav__link--active' }}">
+            {{- 'nav.forums'|trans -}}
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ path('wiki') }}"
+             class="site-nav__link {{ active == 'wiki' ? 'site-nav__link--active' }}">
+              {{- 'nav.wiki'|trans -}}
+          </a>
+        </li>
+
+        {% if is_granted('ROLE_ADMIN') %}
+          <li class="dropdown">
+            <button type="button"
+                    class="dropdown__toggle no-underline no-wrap site-nav__link {{ active == 'admin' ? 'site-nav__link--active' }}">
+              <span class="no-underline__exempt">{{ 'label.admin'|trans }}</span>
+              <span class="dropdown__arrow" aria-hidden="true"></span>
+            </button>
+            <ul class="card dropdown__menu no-wrap unlistify">
+              <li>
+                <a href="{{ path('user_bans') }}" class="menu-link">
+                  {{ icon('hammer') }}
+                  {{ 'label.bans'|trans }}
+                </a>
+              </li>
+              <li>
+                <a href="{{ path('manage_forum_categories') }}" class="menu-link">
+                  {{ icon('sitemap') }}
+                  {{ 'nav.forum_categories'|trans }}
+                </a>
+              </li>
+              <li>
+                <a href="{{ path('users') }}" class="menu-link">
+                  {{ icon('user') }}
+                  {{ 'nav.users'|trans }}
+                </a>
+              </li>
+            </ul>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+
+    <form action="{{ path('search') }}" class="site-nav__mobile-hidden site-nav__search dropdown dropdown--mobile-only">
+      <button type="button" class="site-nav__link site-nav__mobile-toggle no-desktop dropdown__toggle">
+        {{- icon('search') -}}
+      </button>
+
+      <div class="site-nav__search-row dropdown__menu">
+        <label class="site-nav__search-label" for="site-nav-search" aria-hidden="true">
+          {{ icon('search') }}
+        </label>
+        <input name="q"
+               type="search"
+               class="form-control site-nav__search-input"
+               id="site-nav-search"
+               value="{{ search_query }}"
+               aria-label="{{ 'label.search_query'|trans }}">
+      </div>
+    </form>
+
+    <ul class="site-nav__menu site-nav__user-menu unlistify">
+      {% if not is_granted('ROLE_USER') %}
+        <li>
+          <a href="{{ path('login') }}" class="site-nav__link">{{ 'nav.log_in'|trans }}</a>
+        </li>
+
+        <li>
+          <a href="{{ path('registration') }}" class="site-nav__link">{{ 'nav.register'|trans }}</a>
+        </li>
+      {% else %}
+        <li>
+          <a href="{{ path('notifications') }}"
+             class="no-underline no-wrap site-nav__link
+                   {{ notification_count > 0 ? 'site-nav__has-notifications' }}
+                   {{ active == 'messages' ? 'site-nav__link--active' }}"
+             title="{{ 'nav.notifications_count'|trans({'%count%': notification_count|localizednumber}) }}">
+            {% if notification_count > 0 %}
+              {{ icon('envelope-open') }}
+              <small class="no-underline__exempt" aria-hidden="true">{{ notification_count|localizednumber }}</small>
+            {% else %}
+              {{ icon('envelope') }}
+            {% endif %}
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ path('submit', { forum_name: forum.name ?? null }) }}"
+             class="no-underline no-wrap site-nav__link {{ route == 'submit' ? 'site-nav__link--active' }}">
+            {{ icon('plus') }}
+            <span class="no-underline__exempt no-mobile">{{ 'nav.submit'|trans }}</span>
+          </a>
+        </li>
+
+        {# user menu #}
+        <li class="dropdown dropdown--right">
+          <button type="button" class="dropdown__toggle no-underline site-nav__link no-wrap {{ active == 'user' ? 'site-nav__link--active' }}">
+            {{ icon('user') }}
+            <strong class="no-underline__exempt no-mobile">{{ app.user.username }}</strong>
+            <span class="dropdown__arrow no-mobile" aria-hidden="true"></span>
+          </button>
+
+          <ul class="card dropdown__menu unlistify no-wrap">
+            <li>
+              <a href="{{ path('user', {username: app.user.username}) }}"
+                 class="menu-link">
+                {{ icon('user') }}
+                {{ 'nav.profile'|trans }}
+              </a>
+            </li>
+            <li>
+              <a href="{{ path('edit_user', {username: app.user.username}) }}"
+                 class="menu-link">
+                {{ icon('lock') }}
+                {{ 'nav.my_account'|trans }}
+              </a>
+            </li>
+            <li>
+              <a href="{{ path('user_settings', {username: app.user.username}) }}"
+                 class="menu-link">
+                 {{ icon('settings') }}
+                 {{ 'nav.user_settings'|trans }}
+              </a>
+            </li>
+            <li>
+              <a href="{{ path('user_block_list', {username: app.user.username}) }}"
+                 class="menu-link">
+                {{ icon('block') }}
+                {{ 'nav.block_list'|trans }}
+              </a>
+            </li>
+            <li>
+              <form action="{{ logout_path() }}" method="POST">
+                <button class="menu-link">
+                  {{ icon('logout') }}
+                  {{ 'nav.log_out'|trans }}
+                </button>
+              </form>
+            </li>
+          </ul>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>

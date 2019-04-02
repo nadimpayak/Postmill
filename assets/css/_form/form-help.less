@@ -1,0 +1,16 @@
+.form-help {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin-bottom: 0;
+
+  .form-row + .form-row > & {
+    // crappy hack
+    margin-top: -0.5rem;
+  }
+
+  .form-row + & {
+    // another crappy hack
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+  }
+}

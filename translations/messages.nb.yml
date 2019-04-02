@@ -1,0 +1,281 @@
+action:
+    upvote: Stem opp
+    downvote: Stem ned
+    retract_upvote: Fjern oppstemning
+    retract_downvote: Fjern nedstemning
+    ban: Utesteng
+
+add_moderator:
+    title: Legg til moderator for %forum%
+
+ban_add:
+    title: Utesteng en IP-adresse
+
+'Expires at (YYYY-MM-DD hh:mm)': Varer til (ÅÅÅÅ-MM-DD tt:mm)
+
+ban_list:
+    title: Utestengelser
+    ip: IP-adresse
+    timestamp: Tid
+    banned_by: Utestengt av
+    reason: Årsak
+    user: Bruker
+    user_none: ingen
+    expires: Løper ut
+    expires_never: aldri
+    remove: Fjern utestengelser
+
+banned:
+    title: Utestengt
+    message: Du har blitt utestengt!
+
+comments:
+    author_deleted: '[slettet]'
+    comments: Kommentarer
+    delete: Slett
+    delete_thread: Slett med svar
+    edit: Rediger
+    permalink: Permalenke
+    parent: Forelder
+    reply: Svar
+    form_load_error: En nettverksfeil oppstod. Vennligst prøv på nytt.
+    info: '%user% skrev %timestamp%'
+    info_at_timestamp: '%timestamp%'
+    not_logged_in: Du må %login_link% eller %register_link% for å kommentere.
+    not_logged_in_login_link_label: logge inn
+    not_logged_in_register_link_label: registrere deg
+    viewing_thread: Viser en enkelt kommentartråd.
+    thread_return: Vis alle kommentarer
+    return_to_forum: ← Gå tilbake til %forum%
+    admin_ban: Utesteng IP
+    edit_info: (redigert %edited_at%)
+    moderator_info: (redigert av en moderator %edited_at%)
+
+comment_form:
+    comment: Kommentar
+    edit_title: Redigerer en kommentar
+    create_title: Poster en kommentar
+
+compose_message:
+    title: Komponerer en melding til %username%
+
+create_forum:
+    create_new_forum: Opprett nytt forum
+
+edit_forum:
+    title: Redigerer %forum%
+
+edit_user:
+    title: Redigerer brukerkontoen %username%
+
+flash:
+    ban_added: IP-adressen ble utestengt.
+    forum_deleted: Forumet og all dets innhold har blitt slettet.
+    forum_updated: Endringene har blitt lagret.
+    forum_moderator_added: Brukeren har blitt lagt til som moderator.
+    user_account_registered: Din konto har blitt registrert.
+    reset_password_email_sent: En epost har blitt sendt til adressen du oppga.
+    theme_created: Temaet ditt har blitt opprettet.
+    theme_updated: Temaet ditt har blitt lagret.
+    submission_deleted: Innlegget ble slettet.
+    submission_edited: Innlegget ble endret.
+    user_password_updated: Passordet ditt ble oppdatert.
+    user_settings_updated: Innstillingene har blitt oppdatert.
+    no_messages: Det finnes ingen meldinger å vise.
+
+forum:
+    moderators: Moderatorer
+    manage: Administrasjon
+    edit: Rediger forum
+    subscribe: Abonnere
+    unsubscribe: Avabonnere
+    subscriber_count: '{0} Ingen abonnenter|{1} %count% abonnent|[1,Inf[ %count% abonnenter'
+    add_moderator: Legg til moderator
+
+forum_form:
+    name: Navn
+    title: Tittel
+    description: Beskrivelse
+    category: Kategori
+    create: Opprett forum
+    save: Lagre endringer
+    delete: Slett forum
+    confirm_delete: Er du sikker på at du vil slette dette forumet og all dets innhold?
+    featured: Vis på forside
+    uncategorized_placeholder: (ukategorisert)
+
+forum_list:
+    name: Navn
+    title: Tittel
+    subscribers: Abonnenter
+    page_title: Liste over fora
+    create_forum: Opprett forum
+    submission_count: Innlegg
+    list_view: Listevisning
+    category_view: Kategorivisning
+    uncategorized: Ukategorisert
+
+forum_moderators:
+    title: Moderatorer for /%forum_name%
+    username: Brukernavn
+    since: Siden
+    last_seen: Sist sett
+
+front:
+    subscribed_forums: Dine abonnementer
+    no_subscriptions: Du har ikke abonnert på noen fora. Viser utvalgte fora istedenfor.
+    featured_forums: Utvalgte fora
+    no_forums: Det er ingen utvalgte fora å vise frem
+    all: Alle
+    featured: Utvalgte
+    subscribed: Abonnert
+
+inbox:
+    message_reply_head: 'Sv: %title%'
+
+label:
+    title: Tittel
+    replies: Svar
+    from: Fra
+    to: Til
+    sent: Sendt
+    toolbox: Verktøy
+    ip_address: IP-adresse
+    reason_for_banning: Årsak for utestengelse
+    user_associated_with_ip: Bruker assosiert med IP
+
+login_form:
+    log_in: Logg inn
+    username: Brukernavn
+    password: Passord
+    reset_password: Glemt passord?
+
+markdown_type:
+    help: Hjelp med formatering
+
+message_form:
+    title: Tittel
+    message: Melding
+    send: Send
+    reply: Svar
+
+moderator_form:
+    user: Brukernavn
+    submit: Legg til som moderator
+
+nav:
+    submit: Nytt innlegg
+    log_in: Logg inn
+    log_out: Logg ut
+    profile: Profil
+    register: Registrér
+    my_account: Min brukerkonto
+    user_settings: Brukerinnstillinger
+    forums: Forumliste
+    messages: Meldinger
+    next: Neste
+    previous: Forrige
+
+request_password_reset:
+    title: Be om nullstilling av passord
+    multiple_accounts_notice: >
+        Hvis du har flere kontoer registrert på én epost-adresse, vil du motta
+        én epost pr. konto.
+    no_confirmation_notice: >
+        Adressen du oppga er sikkert ugyldig hvis du aldri mottar en epost. Av
+        personvernsgrunner vil vi aldri bekrefte hvorvidt en brukerkonto med den
+        oppgitte epost-adressen faktisk eksisterer eller ei.
+
+request_password_reset_form:
+    email: Epost-adresse
+    submit: Send
+
+reset_password:
+    email_subject: '%site_name% - Nullstill passord for %username%'
+
+    # this should be kept at 76 columns --------------------------------------------
+    email_body: |
+        Noen ba om å nullstille passordet for %site_name%-kontoen din. For å
+        nullstille passordet ditt, klikk på lenken nedenfor:
+
+        %reset_link%
+
+        Du kan trygt ignorere denne meldingen om du ikke ba om å nullstille
+        passordet ditt. Lenken vil utløpe om 24 timer.
+
+    title: Nullstille passord
+
+site_footer:
+    version: Kjører %app% %version% (%branch%)
+
+submission_form:
+    title: Tittel
+    url: Lenke
+    body: Tekst
+    forum: Forum
+    sticky: Klistre øverst
+    create: Send innlegg
+    edit: Rediger innlegg
+    delete: Slett innlegg
+    confirm_delete: Er du sikker på at du vil slette dette innlegget?
+
+submissions:
+    comments: '{0} Ingen kommentarer|{1} %count% kommentar|[1,Inf[ %count% kommentarer'
+    edit: Rediger
+    info_with_forum_name: Sendt inn av %submitter% %timestamp% til %forum%
+    info_without_forum_name: Sendt inn av %submitter% %timestamp%
+    info_at_timestamp: '%timestamp%'
+    sort_by_hot: Populært
+    sort_by_new: Nytt
+    sort_by_top: Topp
+    sort_by_controversial: Kontroversielt
+    total_votes: '{1} %count% stemme|[0,Inf[ %count% stemmer'
+    vote_stats: (+%up%, −%down%)
+    ip_ban: Utesteng IP
+    edit_info: (redigert %edited_at%)
+    moderator_info: (redigert av en moderator %edited_at%)
+
+time:
+    on_timestamp: '%timestamp%'
+    earlier_format: '%relative_time% tidligere'
+    later_format: '%relative_time% senere'
+
+title:
+    messages: Meldinger
+
+user:
+    submissions: Innlegg
+    comments: Kommentarer
+    moderates: '%username% er en moderator i:'
+    username_rules: Tillatte tegn er A-Z, a-z, 0-9 og understrek.
+    password_rules: Minst 8 tegn; opptil 72 på grunn av begrensninger med bcrypt-algoritmen.
+    email_optional: Å oppgi en epost-adresse er valgfritt. Den vil kun bli brukt til nullstilling av passord.
+    message: Send melding
+    registered: Registrert %timestamp%
+
+user_flag:
+    post_as_label: Post som
+    none_label: (ingen)
+    admin: admin
+    admin_label: Administrator
+    moderator: moderator
+    moderator_label: Moderator
+
+user_form:
+    username: Brukernavn
+    password: Passord
+    repeat_password: Passord (gjenta)
+    new_password: Nytt passord
+    repeat_new_password: Nytt passord (gjenta)
+    email: Epost
+    register: Registrer
+    verification: Verifikasjon
+    save: Lagre endringer
+
+user_settings:
+    title: Redigerer innstillinger for %username%
+
+user_settings_form:
+    locale: Språk
+    night_mode: Nattmodus
+    save: Lagre endringer

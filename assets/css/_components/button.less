@@ -1,0 +1,45 @@
+@import (reference) '../_mixins';
+
+.button {
+  --font-size: 1.2rem;
+  --padding-v: 0.5rem;
+  --padding-h: 1rem;
+  .unbuttonize();
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: var(--font-size);
+  padding: var(--padding-v) var(--padding-h);
+  text-align: center;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &--inline {
+    --font-size: 1em;
+    --padding-v: 0.25rem;
+    --padding-h: 0.5rem;
+    display: inline;
+  }
+
+  &:not(&--secondary) {
+    --button-active: var(--primary-bright);
+    background-color: var(--primary);
+    color: var(--primary-fg);
+  }
+
+  &--secondary {
+    --button-active: var(--accent-alt);
+    background-color: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  &:hover,
+  &:focus {
+    background-color: var(--button-active);
+    outline: none;
+  }
+}

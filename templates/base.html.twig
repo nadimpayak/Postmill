@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ app.request.locale }}" prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}{{ site_name() }}{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="postmill {{ app_version() }}">
+
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('apple-touch-icon-precomposed.png') }}">
+    <link rel="search" type="application/opensearchdescription+xml" title="{{ site_name() }}" href="{{ path('opensearch_description') }}">
+
+    {% block stylesheets %}
+      {{ include('_includes/stylesheets.html.twig', {
+        theme: app.user.preferredTheme ?? null,
+        night_mode: app.user.nightMode ?? false,
+      }, with_context=false) }}
+    {% endblock %}
+
+    {% block head %}{% endblock %}
+  </head>
+
+  <body class="{% block page_classes '' %}
+      {{ app.user ? 'user-logged-in' : 'user-anonymous' }}
+      {{ (app.user.nightMode ?? false) ? 'night-mode' }}
+      {{ (app.user.enablePostPreviews ?? true) ? 'js-enable-post-previews' }}">
+    {% block site_nav %}
+      {{ include('_includes/site_nav.html.twig', {forum: forum ?? null}, with_context=false) }}
+    {% endblock %}
+
+    {% block site_alerts %}
+      <div class="site-alerts">
+        {%- for type, notices in app.flashes -%}
+          {%- for notice in notices -%}
+            <div class="alert alert--{{ type }} alert--animate alert--dismissable" role="alert">
+              <p>{{ notice|trans }}</p>
+            </div>
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+    {% endblock %}
+
+    {% block site_main %}
+      <div class="content-wrapper">
+        <main class="body">{% block body %}{% endblock %}</main>
+        <aside class="sidebar">{% block sidebar %}{% endblock %}</aside>
+
+        <footer class="site-footer">
+          <p class="site-footer-version">
+            {{ 'site_footer.version'|trans({
+              '%branch%': app_branch(),
+              '%version%': app_version(),
+              '%app%': '<a href="https://postmill.xyz/">Postmill</a>',
+            })|raw }}
+          </p>
+        </footer>
+      </div>
+    {% endblock %}
+
+    {% block javascripts %}
+      <script src="{{ preload(asset('bundles/fosjsrouting/js/router.js', 'static_asset')) }}"></script>
+
+      {% if app.environment != 'dev' or app.request.query.has('static_assets') %}
+        <script src="{{ preload(asset('js/routing.js', 'static_asset')) }}"></script>
+      {% else %}
+        <script src="{{ path('fos_js_routing_js', {callback: 'fos.Router.setData'}) }}"></script>
+      {% endif %}
+
+      {{ encore_entry_script_tags('main') }}
+
+      {% if app.environment != 'dev' or app.request.query.has('static_assets') %}
+        <script src="{{ preload(asset('js/translations/config.js', 'static_asset')) }}"></script>
+        <script src="{{ preload(asset('js/translations/%s.js'|format(app.request.locale), 'static_asset')) }}"></script>
+      {% else %}
+        <script src="{{ path('bazinga_jstranslation_js') }}"></script>
+      {% endif %}
+
+      {% if app.request.locale != 'en' %}
+        {# load fallback locale #}
+        <script src="{{ preload(asset('js/translations/en.js', 'static_asset')) }}"></script>
+      {% endif %}
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+  {{ form_row(form.body, {attr: {rows: 6}}) }}
+
+  <div class="form__row form__button-row">
+    <button class="button">{{ 'message_form.send'|trans }}</button>
+  </div>
+{{ form_end(form) }}

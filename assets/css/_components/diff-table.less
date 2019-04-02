@@ -1,0 +1,38 @@
+@import '../_variables';
+
+.diff-table {
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  width: 100%;
+
+  &__line-group {
+    border-bottom: solid 0.5rem var(--border);
+  }
+
+  &__line-no {
+    background: var(--bg-grey);
+    padding: 0.25rem 0.5rem;
+    text-align: right;
+    vertical-align: top;
+    width: 5%;
+  }
+
+  &__content {
+    padding: 0.25rem 0.5rem;
+    min-width: 4rem;
+    vertical-align: top;
+    width: 45%;
+
+    &--changed {
+      background: var(--bg-blue);
+    }
+
+    &--removed {
+      background: var(--bg-red);
+    }
+
+    &--added {
+      background: var(--bg-green);
+    }
+  }
+}

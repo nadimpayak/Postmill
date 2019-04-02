@@ -1,0 +1,15 @@
+{% extends 'feed_base.xml.twig' %}
+
+{% from '_macros/feed_macros.xml.twig' import pagination %}
+{% from 'submission/_feed_macros.xml.twig' import submission %}
+
+{% block title site_name() %}
+{% block subtitle 'title.submissions_in_featured_forums'|trans %}
+
+{% block body %}
+  {{ pagination(submissions) }}
+
+  {% for submission in submissions %}
+    {{ submission(submission) }}
+  {% endfor %}
+{% endblock %}

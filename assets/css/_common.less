@@ -1,0 +1,83 @@
+@import (reference) '_mixins';
+
+.content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "body sidebar" "footer sidebar";
+  flex: 1 0 auto;
+
+  @media screen and (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  & > .body {
+    grid-area: body;
+    min-width: 0;
+    margin: 1rem;
+  }
+
+  & > .sidebar {
+    grid-area: sidebar;
+    flex: none;
+    min-width: 0;
+  }
+
+  & > footer {
+    grid-area: footer;
+  }
+}
+
+.site-alerts {
+  margin: 0 1rem;
+
+  .alert {
+    margin-top: 1rem;
+  }
+
+  &:empty {
+    display: none;
+  }
+}
+
+.site-footer {
+  margin-top: auto;
+  padding: 1rem 1rem 0;
+
+  .site-footer-version {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.35;
+    font-size: 0.80rem;
+    text-align: center;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.notification-head {
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+.user-flag::before { content: '['; }
+.user-flag::after { content: ']'; }
+
+.user-flag-admin {
+  color: var(--fg-red);
+}
+
+.user-flag-moderator {
+  color: var(--fg-green);
+}
+
+.forum-group-heading a {
+  color: var(--text);
+}
+
+.submission-permalink-nav {
+  .horizontal-menu();
+}

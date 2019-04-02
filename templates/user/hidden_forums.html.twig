@@ -1,0 +1,57 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title 'title.hidden_forums'|trans %}
+
+{% block head %}
+  {{ parent() }}
+
+  {{ include('_includes/meta_pagination.html.twig', {pager: forums}, with_context=false) }}
+{% endblock %}
+
+{% block body %}
+  <h1 class="page-heading">{{ 'title.hidden_forums'|trans }}</h1>
+
+  <div class="alert alert--notice">
+    <p>{{ 'help.hidden_forums'|trans }}</p>
+    <p>{{ 'help.hidden_forums_no_comment_hiding'|trans }}</p>
+  </div>
+
+  {% if forums|length > 0 %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="table__shrink">{{ 'forum_list.name'|trans }}</th>
+          <th>{{ 'forum_list.title'|trans }}</th>
+          <th class="table__shrink"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for forum in forums %}
+        <tr>
+          <td class="table__shrink">
+            <a href="{{ path('forum', {forum_name: forum.name}) }}"><strong>{{ forum.name }}</strong></a>
+
+            {% if forum.featured %}
+              <span title="{{ 'help.forum_is_featured'|trans }}">&#x2b50;</span>
+            {% endif %}
+          </td>
+
+          <td>{{ forum.title }}</td>
+
+          <td class="table__shrink">
+            <form action="{{ path('unhide_forum', {username: user.username, forum: forum.id}) }}" method="POST">
+              <input type="hidden" name="token" value="{{ csrf_token('hide_forum') }}">
+              <button class="button button--inline">{{ 'action.delete'|trans }}</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+    {{ include('_includes/pagination.html.twig', {pager: forums}, with_context=false) }}
+  {% else %}
+    <p><small class="dimmed">{{ 'flash.no_entries_to_display'|trans }}</small></p>
+  {% endif %}
+{% endblock %}

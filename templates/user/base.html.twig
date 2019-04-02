@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% from _self import timestamp %}
+
+{% block sidebar %}
+  <section class="sidebar__section user-bio">
+    <h1 class="sidebar__title user-bio__title break-text">
+      <a href="{{ path('user', {username: user.username}) }}" class="user-bio__user-link">{{ user.username }}</a>
+    </h1>
+
+    <p class="user-bio__registered">{{ 'user.registered'|trans({
+      '%timestamp%': timestamp(user.created)
+    })|raw }}</p>
+
+    {% if user.biography is not empty %}
+      <div class="user-bio__biography">{{ user.biography|cached_markdown({ context: 'user_biography', user: user })|raw }}</div>
+    {% endif %}
+  </section>
+
+  {% set toolbox_items = [] %}
+
+  {% if is_granted('ROLE_USER') and user is not same as(app.user) %}
+    {% if is_granted('message', user)  %}
+      {% set item %}
+        <li><a href="{{ path('compose_message', {username: user.username}) }}">{{ 'user.message'|trans }}</a></li>
+      {% endset %}
+      {% set toolbox_items = toolbox_items|merge([item]) %}
+    {% endif %}
+
+    {% if not app.user.isBlocking(user) %}
+      {% set item %}
+        <li><a href="{{ path('block_user', {username: user.username}) }}">{{ 'nav.block_user'|trans }}</a></li>
+      {% endset %}
+      {% set toolbox_items = toolbox_items|merge([item]) %}
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+      {% set item %}
+        {% if not user.banned %}
+          <li><a href="{{ path('ban_user', {username: user.username}) }}">{{ 'action.ban'|trans }}</a></li>
+        {% else %}
+          <li><a href="{{ path('unban_user', {username: user.username}) }}">{{ 'action.unban'|trans }}</a></li>
+        {% endif %}
+      {% endset %}
+      {% set toolbox_items = toolbox_items|merge([item]) %}
+
+      {% set item %}
+        <li><a href="{{ path('user_forum_bans', {username: user.username}) }}">{{ 'nav.forum_bans'|trans }}</a></li>
+      {% endset %}
+      {% set toolbox_items = toolbox_items|merge([item]) %}
+    {% endif %}
+  {% endif %}
+
+  {% if user is same as(app.user) %}
+    {% set item %}
+      <li><a href="{{ path('edit_biography', {username: user.username}) }}">{{ 'nav.edit_biography'|trans }}</a></li>
+    {% endset %}
+    {% set toolbox_items = toolbox_items|merge([item]) %}
+
+    {% set item %}
+      <li><a href="{{ path('hidden_forums', {username: user.username}) }}">{{ 'nav.hidden_forums'|trans }}</a></li>
+    {% endset %}
+    {% set toolbox_items = toolbox_items|merge([item]) %}
+  {% endif %}
+
+  {% if toolbox_items %}
+    <section class="sidebar__section sidebar__section--user-toolbox">
+      <h1 class="sidebar__title">{{ 'label.toolbox'|trans }}</h1>
+      <ul class="sidebar__list unlistify">
+        {% for item in toolbox_items %}
+          {{ item }}
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+
+  {% if is_granted('ROLE_ADMIN') %}
+    <section class="sidebar__section sidebar__section--user-roles">
+      <h1 class="sidebar__title">{{ 'heading.user_roles'|trans }}</h1>
+      <form action="{{ path(user.trusted ? 'mark_user_untrusted' : 'mark_user_trusted', {username: user.username}) }}" method="post" class="form">
+        <input type="hidden" name="token" value="{{ csrf_token('mark_trusted') }}">
+        <div class="form__row">
+          <button class="button button--secondary">{{ (not user.trusted ? 'action.mark_as_trusted' : 'action.mark_as_untrusted')|trans }}</button>
+        </div>
+      </form>
+    </section>
+  {% endif %}
+
+  {% if user.moderatorTokens|length > 0 %}
+    <section class="sidebar__section sidebar__section--user-moderator-info">
+      <h1 class="sidebar__title break-text">{{ 'user.moderates'|trans({'%username%': user.username}) }}</h1>
+      <ul>
+        {% for token in user.moderatorTokens %}
+          <li><a href="{{ path('forum', {forum_name: token.forum.name}) }}">{{ token.forum.name }}</a></li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+{% endblock %}
+
+{%- macro timestamp(timestamp) -%}
+  {%- set date = timestamp|localizeddate('long', 'short') -%}
+  <time datetime="{{ timestamp|date('c') }}" class="relative-time" title="{{ date }}">
+    {{- 'time.on_timestamp'|trans({'%timestamp%': date}) -}}
+  </time>
+{%- endmacro -%}

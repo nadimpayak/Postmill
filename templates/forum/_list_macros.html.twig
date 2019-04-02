@@ -1,0 +1,32 @@
+{% macro forum_list_header() %}
+  <h1 class="page-heading">{{ 'forum_list.page_title'|trans }}</h1>
+
+  <nav class="tabs forum-list-view-selector">
+    <ul class="unlistify tabs__bar">
+      {% with { active: app.request.attributes.get('_route') == 'forum_list' } %}
+        <li>
+          <a href="{{ path('forum_list') }}" class="tab {{ active ? 'tab--active' }}">
+            {{- 'forum_list.list_view'|trans -}}
+          </a>
+        </li>
+      {% endwith %}
+      {% with { active: app.request.attributes.get('_route') == 'forums_by_category' } %}
+        <li>
+          <a href="{{ path('forums_by_category') }}" class="tab {{ active ? 'tab--active' }}">
+            {{- 'forum_list.category_view'|trans -}}
+          </a>
+        </li>
+      {% endwith %}
+    </ul>
+  </nav>
+
+  {% if is_granted('create_forum') %}
+    <p role="navigation">
+      <a href="{{ path('create_forum') }}" class="button">{{ 'forum_list.create_forum'|trans }}</a>
+    </p>
+  {% elseif is_granted('ROLE_USER') %}
+    <div class="alert alert--notice">
+      <p>{{ 'flash.you_cannot_create_forums_yet'|trans }}</p>
+    </div>
+  {% endif %}
+{% endmacro %}

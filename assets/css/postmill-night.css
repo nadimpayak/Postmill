@@ -1,0 +1,62 @@
+@import '~typeface-roboto';
+@import '~typeface-roboto-mono';
+
+/*! https://postmill.xyz/ */
+
+:root {
+  --font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+  --font-size: 14px;
+  --line-height: 1.5;
+  --mono-font-family: Roboto Mono, monospace;
+  --mono-font-size: 14px;
+  --paragraph-width: 80ch;
+
+  --link: #faa;
+  --submission-link: #fff;
+  --submission-link-visited: var(--text);
+  --submission-link-sticky: var(--fg-green);
+
+  --primary: #c00;
+  --primary-alt: #a00;
+  --primary-bright: #e10;
+  --primary-alpha: #c006;
+  --primary-fg: #fff;
+  --accent: #424242;
+  --accent-alt: #525252;
+  --accent-fg: #fff;
+  --card: var(--bg-page);
+
+  --notification: #f60;
+
+  --bg-red: #660000;
+  --bg-orange: #663500;
+  --bg-green: #004200;
+  --bg-blue: #003666;
+  --bg-grey: #424242;
+  --bg-sidebar: #161616;
+  --bg-page: #000;
+
+  --text: #ccc;
+  --text-muted: #909090;
+  --text-invert: #1a1a1a;
+  --fg-broken: #cfcfcf;
+  --fg-red: #f00;
+  --fg-orange: #fa4;
+  --fg-green: #8f8;
+  --fg-blue: #4af;
+  --fg-grey: #777;
+  --border: #666;
+  --border-light: rgb(51, 51, 51);
+}
+
+::selection {
+  background-color: var(--primary);
+  color: var(--text-invert);
+}
+
+.select2-container {
+  /* Fix for select2 being bad on dark pages.
+   * It doesn't matter that the select box is bright, since regular select boxes
+   * wouldn't have their colours overridden anyway. */
+  color: #000;
+}

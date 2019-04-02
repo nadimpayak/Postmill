@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% from '_macros/post_nav.html.twig' import submission_sort, submission_time %}
+{% from 'submission/_macros.html.twig' import submission %}
+
+{% block page_classes 'forum-category-page' %}
+{% block title 'heading.category'|trans({'%category%': category.title}) %}
+
+{% block head %}
+  {{ parent() }}
+  <meta name="description" content="{{ category.description }}">
+{% endblock %}
+
+{% block sidebar %}
+  <section class="sidebar__section">
+    <h2 class="sidebar__title">/c/{{ category.name }}</h2>
+
+    {{ category.sidebar|cached_markdown({ context: 'forum_category', category: category })|raw }}
+
+    {% if is_granted('ROLE_ADMIN') %}
+      <nav>
+        <p>
+          <a href="{{ path('edit_forum_category', {name: category.name}) }}"
+             class="button button--inline">
+            {{- 'action.edit'|trans -}}
+          </a>
+        </p>
+      </nav>
+    {% endif %}
+  </section>
+
+  <section class="sidebar__section">
+    <h2 class="sidebar__title">{{ 'label.forums_in_this_category'|trans }}</h2>
+
+    <ul>
+      {% for forum in forums %}
+        <li><a href="{{ path('forum', {forum_name: forum}) }}">{{ forum }}</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}
+
+{% block body %}
+  <h1 class="page-heading">{{ 'heading.category'|trans({'%category%': category.title}) }}</h1>
+
+  <nav class="tabs">
+    <ul class="unlistify tabs__bar">
+      {{ submission_sort(sort_by) }}
+      {{ submission_time(sort_by) }}
+    </ul>
+  </nav>
+
+  {% for submission in submissions %}
+    {{ submission(submission) }}
+  {% endfor %}
+
+  {% include '_includes/pagination.html.twig' with {pager: submissions} %}
+{% endblock %}

@@ -1,0 +1,35 @@
+parameters:
+    env(APP_LOCALE): 'en'
+    markdown_cache_time: 86400
+
+framework:
+    secret: '%env(APP_SECRET)%'
+    default_locale: '%env(APP_LOCALE)%'
+    csrf_protection: ~
+    http_method_override: false
+    session:
+        # With this config, PHP's native session handling is used
+        handler_id: ~
+        save_path: "%kernel.project_dir%/var/sessions"
+    fragments: ~
+    php_errors:
+        log: true
+    assets:
+        packages:
+            # package for assets that don't go through webpack's cache-busting
+            static_asset:
+                version_strategy: App\Asset\HashingVersionStrategy
+    # we need to enable the templating component in order for
+    # liip/imagine-bundle to work, and for gregwar/captcha-bundle not to break
+    # when trying to load its form resources
+    templating:
+        engines: [twig]
+    cache:
+        pools:
+            cache.markdown:
+                adapter: cache.app
+                default_lifetime: "%markdown_cache_time%"
+                public: true
+            cache.ratelimit:
+                adapter: cache.app
+                public: true

@@ -1,0 +1,22 @@
+// extension of .button
+.subscribe-button {
+  padding: 0;
+
+  &:not(.button--inline) {
+    --font-size: 1rem;
+  }
+
+  &__inner {
+    display: flex;
+  }
+
+  &__label {
+    border-right: solid 1px currentColor;
+    padding: var(--padding-v) var(--padding-h);
+  }
+
+  &__subscriber-count {
+    padding-left: var(--padding-h);
+    padding: var(--padding-v) var(--padding-h);
+  }
+}

@@ -1,0 +1,96 @@
+@import (reference) '_variables';
+
+/*
+ * Make certain things boring and grey.
+ *
+ * This should be applied to paragraphs or navs only, never entire containers.
+ */
+.meta() {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 0.075rem 0;
+
+  form {
+    display: inline;
+  }
+
+  a, button {
+    color: inherit;
+    cursor: pointer;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  button {
+    .unbuttonize();
+  }
+}
+
+.meta-nav() {
+  .horizontal-menu();
+  .meta();
+
+  li:not(:last-child) {
+    margin-right: 1rem;
+  }
+}
+
+/*
+ * Turn a <nav> that holds <ul> and <li> elements into horizontal menus.
+ */
+.horizontal-menu() {
+  & > ul {
+    padding: 0;
+  }
+
+  & > ul > li {
+    display: inline-block;
+    padding: 0;
+  }
+}
+
+/*
+ * Remove button styles.
+ */
+.unbuttonize() {
+  border: none;
+  background: transparent;
+  padding: 0;
+  text-align: unset;
+}
+
+.vote-flex() {
+  display: flex;
+  flex-flow: row nowrap;
+
+  & > :first-child {
+    flex: none;
+    min-width: 0;
+  }
+
+  & > :last-child {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+.text-inputs(@rules) {
+  input:not([type]),
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="search"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="time"],
+  input[type="url"],
+  textarea {
+    @rules();
+  }
+}

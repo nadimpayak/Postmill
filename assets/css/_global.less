@@ -1,0 +1,100 @@
+@import (reference) '_mixins';
+@import (reference) '_variables';
+
+html {
+  background: var(--bg-page);
+  box-sizing: border-box;
+  color: var(--text);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  height: 100%;
+  line-height: var(--line-height);
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+// spoiler tags
+a[href="#s"],
+a[href="#spoiler"] {
+  background-color: currentColor;
+  color: inherit;
+  cursor: text;
+  outline: none;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    background-color: unset;
+  }
+}
+
+// Avoid having to deal with margin collapsing. This approach requires
+// containers to have a top padding of 1rem for typographic elements to look
+// good.
+h1, h2, h3, h4, h5, h6, p, dl, ol, ul, blockquote {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+// opinionated blockquote styling - should be safe?
+blockquote {
+  background-color: var(--bg-grey);
+  border-left: 1px solid var(--border);
+  margin: 0;
+  padding: 0 0.5rem;
+
+  & > * {
+    color: var(--text-muted);
+  }
+
+  a {
+    color: var(--text);
+  }
+}
+
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+  margin-bottom: 0;
+}
+
+button,
+input,
+optgroup,
+option,
+select,
+textarea {
+  font: inherit;
+}
+
+pre, code, kbd {
+  font-family: var(--mono-font-family, monospace);
+  font-size: var(--mono-font-size, 1em);
+}
+
+pre {
+  overflow-x: auto;
+}
+
+hr {
+  border: none;
+  border-top: solid 1px var(--border-light);
+}

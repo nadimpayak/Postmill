@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+  {{ form_row(form.parent) }}
+  {{ form_row(form.commonCss, { attr: { rows: 12 } }) }}
+  {{ form_row(form.dayCss, { attr: { rows: 12 } }) }}
+  {{ form_row(form.nightCss, { attr: { rows: 12 } }) }}
+  {{ form_row(form.comment) }}
+  {{ form_row(form.appendToDefaultStyle) }}
+
+  <div class="form__row form__button-row">
+    <button class="button">{{ 'action.edit_theme'|trans }}</button>
+  </div>
+{{ form_end(form) }}

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+{% from _self import _time %}
+{% from 'user/_macros.html.twig' import user_link %}
+
+{% block page_classes 'message-list-page' %}
+
+{% block head %}
+  {{ include('_includes/meta_pagination.html.twig', {pager: threads}, with_context=false) }}
+{% endblock %}
+
+{% block title 'title.messages'|trans %}
+
+{% block body %}
+  {{ include('user/_inbox_nav.html.twig', { active: 'messages' }, with_context=false) }}
+
+  <h1 class="page-heading">{{ block('title') }}</h1>
+
+  {% if threads|length > 0 %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{{ 'label.title'|trans }}</th>
+          <th class="table__shrink">{{ 'label.last_message'|trans }}</th>
+          <th class="table__shrink">{{ 'label.replies'|trans }}</th>
+          <th class="table__shrink">{{ 'label.participants'|trans }}</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for thread in threads %}
+        <tr>
+          <td><strong><a href="{{ path('message_thread', {id: thread.id}) }}">{{ thread.title }}</a></strong></td>
+          <td class="table__shrink text-align-right">{{ _time(thread.messages|last.timestamp) }}</td>
+          <td class="table__shrink text-align-right">{{ (thread.messages|length - 1)|localizednumber }}</td>
+          <td class="table__shrink">
+            {%- for participant in thread.participants if participant is not same as(app.user) -%}
+              {{- loop.index != 1 ? ', ' -}}
+              {{- user_link(participant) -}}
+            {%- endfor -%}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="no-entries">
+      <small class="dimmed">{{ 'flash.no_messages'|trans }}</small>
+    </p>
+  {% endif %}
+
+  {{ include('_includes/pagination.html.twig', {pager: threads}, with_context=false) }}
+{% endblock %}
+
+{% macro _time(datetime) %}
+  {% with {date: datetime|localizeddate('long', 'short')} %}
+    <time class="relative-time" datetime="{{ datetime|date('c') }}" title="{{ date }}">{{ date }}</time>
+  {% endwith %}
+{% endmacro _time %}

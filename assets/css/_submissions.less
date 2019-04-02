@@ -1,0 +1,100 @@
+@import (reference) '_mixins';
+
+.submission {
+  margin-bottom: 1rem;
+
+  &__title {
+    font-size: 1.33rem;
+    font-weight: normal;
+    margin: 0;
+
+    // don't make giant new lines if only the tiny host text wraps.
+    // also aligns icons correctly.
+    line-height: 0;
+
+    > * {
+      // restore line-height for children
+      line-height: var(--line-height);
+    }
+  }
+
+  &__link {
+    color: var(--submission-link);
+
+    &:visited {
+      color: var(--submission-link-visited);
+    }
+  }
+
+  &--sticky &__link {
+    color: var(--submission-link-sticky);
+  }
+
+  &__host {
+    color: var(--submission-link);
+    font-size: 0.75rem;
+  }
+
+  &__body {
+    padding-top: 1rem;
+    max-width: var(--paragraph-width);
+  }
+
+  &__header > * {
+    margin-bottom: 0;
+  }
+
+  &__row {
+    .vote-flex();
+  }
+
+  &__image,
+  &__thumbnail {
+    display: block;
+  }
+
+  &__image-container {
+    margin-right: 1rem;
+
+    @media screen and (max-width: 480px) {
+      // don't show thumbnails on tiny screens
+      display: none;
+    }
+  }
+
+  &__info {
+    .meta;
+  }
+
+
+  &__nav {
+    .meta-nav;
+
+    ul {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.submission-meta {
+  &__short-url {
+    & > span {
+      display: block;
+    }
+
+    & > :first-child {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    & > :last-child {
+      padding: .2em .4em;
+      background: var(--fg-broken);
+      color: var(--text-invert);
+      font-family: var(--mono-font-family);
+      -webkit-user-select: all;
+      -moz-user-select: all;
+      user-select: all;
+    }
+  }
+}

@@ -1,0 +1,100 @@
+stages:
+    - audit
+    - build-assets
+    - test
+
+audit-php:
+    stage: audit
+    image: php:7.3
+    allow_failure: true
+    before_script:
+        - curl -sS https://get.sensiolabs.org/security-checker.phar -o check.phar
+    script:
+        - php check.phar security:check composer.lock
+
+audit-node:
+    stage: audit
+    image: node:8
+    allow_failure: true
+    script:
+        - yarn audit
+
+.build-assets: &build-assets
+    stage: build-assets
+    image: node:8
+    except:
+        - schedules
+    cache:
+        key: ${CI_COMMIT_REF_SLUG}
+        paths:
+            - node_modules/
+    before_script:
+        - yarn
+    artifacts:
+        name: "$CI_JOB_NAME"
+        paths:
+            - public/build/
+
+build-assets:dev:
+    <<: *build-assets
+    script:
+        - yarn run build-dev
+
+build-assets:prod:
+    <<: *build-assets
+    script:
+        - yarn run build-prod
+
+.php-test: &php-test
+    stage: test
+    cache:
+        key: ${CI_COMMIT_REF_SLUG}
+        paths:
+            - vendor/
+    except:
+        - schedules
+    dependencies:
+        - build-assets:prod
+    services:
+        - postgres:9.4-alpine
+    variables:
+        DATABASE_URL: "pgsql://postmill@postgres/postmill?serverVersion=9.4"
+        POSTGRES_USER: postmill
+        POSTGRES_PASSWORD: ""
+        APP_ENV: test
+    before_script:
+        - apt-get update -yqq
+        - apt-get install -yqq git libpq-dev libcurl4-gnutls-dev libicu-dev
+          libvpx-dev libjpeg-dev libpng-dev libxpm-dev zlib1g-dev
+          libfreetype6-dev libxml2-dev libexpat1-dev libbz2-dev libgmp3-dev
+          libldap2-dev unixodbc-dev libsqlite3-dev libaspell-dev libsnmp-dev
+          libpcre3-dev libtidy-dev libzip-dev
+        - docker-php-ext-install mbstring pdo_pgsql curl json intl gd xml zip
+          bz2 opcache
+        - pecl install apcu
+        - docker-php-ext-enable apcu
+        - curl -sS https://getcomposer.org/installer | php
+        - php composer.phar install -n
+        - bin/console doctrine:migrations:migrate -nq
+        - bin/console doctrine:fixtures:load -n
+    script:
+        - find {config,public,src,tests} -type f -name '*.php' -print0 |
+          xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected" )
+        - bin/phpunit
+        - bin/console doctrine:mapping:info -q
+        - bin/console lint:yaml config
+        - bin/console lint:twig templates
+        - bin/console lint:yaml translations
+        - php composer.phar validate --strict
+
+test:7.1:
+    <<: *php-test
+    image: php:7.1
+
+test:7.2:
+    <<: *php-test
+    image: php:7.2
+
+test:7.3:
+    <<: *php-test
+    image: php:7.3

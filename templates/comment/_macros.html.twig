@@ -1,0 +1,41 @@
+{% use '_layouts/comment.html.twig' %}
+
+{% macro comment(comment, options) %}
+  {%- with {
+    comment: comment,
+    level: 1,
+    raw_body: options.raw_body ?? null,
+    recurse: options.recurse ?? false,
+    show_context: options.show_context ?? false,
+    show_form: options.show_form ?? false,
+  } only -%}
+    {{- block('comment') -}}
+  {%- endwith -%}
+{% endmacro comment %}
+
+{% macro comment_form(submission, parent) %}
+  {% if submission.locked and not is_granted('ROLE_ADMIN') %}
+    <div class="alert alert--notice submission-locked-notice">
+      <p>{{ 'flash.submission_is_locked'|trans }}</p>
+    </div>
+  {% elseif is_granted('ROLE_USER') %}
+    {{ render(controller('App\\Controller\\CommentController::commentForm', {
+      forumName: submission.forum.name,
+      submissionId: submission.id,
+      commentId: parent.id ?? null
+    })) }}
+  {% else %}
+    <div class="alert alert--notice">
+      <p>{{ 'comments.not_logged_in'|trans({
+        '%login_link%': '<a href="%s">%s</a>'|format(
+          path('login'),
+          'comments.not_logged_in_login_link_label'|trans
+        ),
+        '%register_link%': '<a href="%s">%s</a>'|format(
+          path('registration'),
+          'comments.not_logged_in_register_link_label'|trans
+        ),
+      })|raw }}</p>
+    </div>
+  {% endif %}
+{% endmacro comment_form %}

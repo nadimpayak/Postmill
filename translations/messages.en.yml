@@ -1,0 +1,582 @@
+# New keys should use the generic categories 'title', 'label', 'help', 'nav',
+# etc. Older keys are subject to renaming.
+
+This submission is locked: This submission is locked
+This submission is pinned: This submission is pinned
+'Expires at (YYYY-MM-DD hh:mm)': Expires at (YYYY-MM-DD hh:mm)
+
+action:
+    mark_as_trusted: Mark user as trusted
+    mark_as_untrusted: Mark user as untrusted
+    upvote: Upvote
+    downvote: Downvote
+    retract_upvote: Retract upvote
+    retract_downvote: Retract downvote
+    edit: Edit
+    create_theme: Create theme
+    edit_theme: Edit theme
+    new_theme: New theme
+    go_to_home_page: Go to home page
+    ban: Ban
+    unban: Unban
+    block: Block
+    unblock: Unblock
+    lock: Lock
+    unlock: Unlock
+    delete: Delete
+    remove: Remove
+    global_ban: Global ban
+    filter: Filter
+    create: Create
+    compare: Compare
+    add: Add
+    post: Post
+    save: Save
+    search: Search
+    hide: Hide
+    unhide: Unhide
+    clear: Clear
+    clear_all: Clear all
+
+add_moderator:
+    title: Add moderator to %forum%
+
+ban_add:
+    title: Ban an IP address
+
+ban_list:
+    ip: IP address
+    timestamp: Time
+    banned_by: Banned by
+    reason: Reason
+    user: User
+    user_none: none
+    expires: Expires
+    expires_never: never
+    remove: Remove bans
+
+banned:
+    title: Banned
+    message: You are banned!
+
+comments:
+    author_deleted: '[deleted]'
+    comments: Comments
+    delete: Delete
+    delete_thread: Delete with replies
+    edit: Edit
+    permalink: Permalink
+    parent: Parent
+    reply: Reply
+    form_load_error: Error loading form. Please try again.
+    info: '%user% wrote %timestamp%'
+    info_at_timestamp: at %timestamp%
+    not_logged_in: You must %login_link% or %register_link% to comment.
+    not_logged_in_login_link_label: log in
+    not_logged_in_register_link_label: register
+    viewing_thread: Viewing a single comment thread.
+    thread_return: View all comments
+    return_to_forum: ← Return to %forum%
+    edit_info: (edited %edited_at%)
+    moderator_info: (edited by a moderator %edited_at%)
+    context.top_level_reply: Reply to %submission_title% by %submission_author%
+    context.comment_reply: Reply to comment by %comment_author% in %submission_title% by %submission_author%
+
+comment_form:
+    comment: Comment
+    edit_title: Editing comment
+    create_title: Posting a comment
+
+compose_message:
+    title: Composing a message to %username%
+
+content:
+    empty: There's nothing here...
+
+create_forum:
+    create_new_forum: Create new forum
+
+edit_forum:
+    title: Editing %forum%
+
+edit_user:
+    title: Editing user %username%
+
+flash:
+    ban_added: The IP address has been banned.
+    forum_deleted: The forum and all its contents have been deleted.
+    forum_updated: The changes have been saved.
+    forum_moderator_added: The user has been promoted to moderator.
+    notification_cleared: The notification was successfully cleared.
+    reset_password_email_sent: A reset email has been sent to the address you specified.
+    theme_created: Your theme has been created.
+    theme_updated: The theme has been updated.
+    submission_edited: The submission was edited.
+    submission_deleted: The submission was deleted.
+    user_account_registered: Your account has been registered.
+    user_password_updated: Your password has been updated.
+    user_settings_updated: User settings have been updated.
+    user_marked_trusted: The user was marked as trusted.
+    user_marked_untrusted: The user was marked as untrusted.
+    user_was_banned: The user was banned.
+    user_was_unbanned: The user was unbanned.
+    user_blocked: The user was blocked.
+    user_unblocked: The user was unblocked.
+    no_messages: There are no messages to display.
+    submission_locked: The submission was locked.
+    submission_unlocked: The submission was unlocked.
+    submission_is_locked: The submission is locked. You cannot post new comments.
+    no_moderated_forums: You don't moderate any forums.
+    you_cannot_create_forums_yet: You cannot create forums yet.
+    user_biography_updated: The biography was updated.
+    user_unmodded: The user was unmodded.
+    no_entries_to_display: There are no entries to display.
+    page_locked: The page was locked.
+    page_unlocked: The page was unlocked.
+    no_cookies_verification: Does the image not load correctly? Please make sure you aren't blocking cookies and try again.
+    no_password_resets: Password resets have been disabled by the administrator.
+    webhook_added: The webhook was added successfully.
+    webhook_edited: The webhook was edited successfully.
+    wiki_page_deleted: The wiki page has been deleted.
+    editing_credentials_of_other_user: You are editing the credentials of another user. This can prevent them from logging in.
+    notifications_cleared: Your notifications have been cleared.
+
+forum:
+    moderators: Moderators
+    manage: Manage
+    edit: Edit forum
+    subscribe: Subscribe
+    unsubscribe: Unsubscribe
+    subscriber_count: '{0} No subscribers|{1} %count% subscriber|[1,Inf[ %count% subscribers'
+    add_moderator: Add moderator
+
+forum_form:
+    name: Name
+    title: Title
+    description: Description
+    category: Category
+    create: Create forum
+    save: Save changes
+    delete: Delete forum
+    confirm_delete: Are you sure you want to delete this forum and all its submissions and comments?
+    featured: Show on front page
+    uncategorized_placeholder: (uncategorized)
+
+forum_list:
+    name: Name
+    title: Title
+    subscribers: Subscribers
+    page_title: List of forums
+    create_forum: Create forum
+    submission_count: Submissions
+    list_view: List view
+    category_view: Category view
+    uncategorized: Uncategorized
+
+forum_moderators:
+    title: Moderators for /%forum_name%
+    username: Username
+    since: Since
+    last_seen: Last seen
+
+front:
+    subscribed_forums: Subscribed forums
+    no_subscriptions: You are not subscribed to any forum. Showing featured forums instead.
+    featured_forums: Featured forums
+    no_forums: There are no featured forums to display.
+    all: All
+    featured: Featured
+    subscribed: Subscribed
+
+heading:
+    user_roles: User roles
+    forums_you_moderate: Forums you moderate
+    multi_forum_view: Multi-forum view
+    message_thread: "%sender% wrote to %receiver% %timestamp%"
+    message_reply: "%sender% replied %timestamp%"
+    category: 'Category: %category%'
+    hide_this_forum: Hide this forum
+    you_were_mentioned: You were mentioned by %user%
+    search: Search
+    search_results: '{0} No results for %query%|{1} 1 result for %query%:|]1,Inf[ %count% results for %query%:'
+    notifications: Notifications
+
+help:
+    delete_forum_warning: All content on this forum will be irreversibly deleted!
+    forum_description: A short description of the forum. Search engines will present this description in their results.
+    append_to_default_style: Leave this checked unless your CSS provides a complete stylesheet for the entire site. Setting this has no effect when extending an existing theme.
+    block_users: Blocking users prevents them from sending you private messages, and you won't receive notifications when they reply to you.
+    revision_summary: Enter a summary of your changes.
+    parent_theme_input: Enter the <username>/<theme> of the theme you wish to extend. Alternatively, you can enter a UUID to extend a particular revision.
+    will_appear_in_the_url: Will appear in the URL.
+    forum_is_featured: This forum is featured.
+    forum_is_hidden: You have chosen to hide this forum.
+    hidden_forums: >
+        By marking forums as hidden, you won't see submissions from those forums
+        when browsing the "featured" and "all" submission listings. You can
+        still subscribe to and moderate forums you choose to hide.
+    hidden_forums_no_comment_hiding: Comments posted to hidden forums will still be displayed in the "recent comments" listing.
+    required_field: This field is required.
+    notify_on_reply: Get notifications when someone replies to your posts.
+    notify_on_mentions: Get notifications when someone links to your user profile.
+
+inbox:
+    message_reply_head: 'Re: %title%'
+
+item:
+    short_url: 'Short URL'
+
+label:
+    name: Name
+    author: Author
+    password: Password
+    confirm: Confirm
+    theme: Theme
+    common_css: Common CSS
+    day_css: Daytime CSS
+    night_css: Night CSS
+    append_to_default_style: Append to default style
+    save_settings: Save settings
+    source_code: Source code
+    sidebar: Sidebar
+    username: Username
+    banned: Banned
+    reason: Reason
+    expires: Expires
+    never: Never
+    action: Action
+    ban: Ban
+    unban: Unban
+    general: General
+    appearance: Appearance
+    preferred_theme: Preferred theme
+    blocked: Blocked
+    comment: Comment
+    last_revised: Last revised
+    parent_theme: Parent theme
+    history: History
+    id: ID
+    date: Date
+    revision_id: Revision ID
+    hierarchy: Hierarchy
+    title: Title
+    replies: Replies
+    from: From
+    to: To
+    sent: Sent
+    front_page: Front page
+    default: Default
+    subscribed: Subscribed
+    featured: Featured
+    all: All
+    moderated: Moderated
+    recent_changes: Recent changes
+    verification: Verification
+    admin: Admin
+    bans: Bans
+    overview: Overview
+    open_external_links_in_new_tab: Open external links in new tab
+    biography: Biography
+    toolbox: Toolbox
+    banned_by: Banned by
+    unban_associated_ips: Remove associated IP bans
+    ban_ip_addresses: Ban IP address(es)?
+    ip_address: IP address
+    ip_addresses: IP addresses
+    forum: Forum
+    trusted: Trusted
+    submissions: Submissions
+    submissions_short: S
+    comments: Comments
+    comments_short: C
+    submission_votes: Submission votes
+    submission_votes_short: SV
+    comment_votes: Comment votes
+    comment_votes_short: CV
+    role: Role
+    moderates: Moderates
+    forums_count: '{0} No forums|{1} %count% forum|]1,Inf[ %count% forums'
+    any: Any
+    none: None
+    order_by: Order by
+    registration_date: Registration date
+    posting: Posting
+    auto_fetch_submission_titles: Auto-fetch submission titles
+    compare: Compare
+    url: URL
+    secret_token: Secret token
+    event: Event
+    event.new_submission: New submission
+    event.edit_submission: Edit submission
+    event.new_comment: New comment
+    event.edit_comment: Edit comment
+    forums_in_this_category: Forums in this category
+    description: Description
+    show_post_previews: Show post previews
+    reason_for_banning: Reason for banning
+    user_associated_with_ip: User associated with IP
+    let_forums_override_preferred_theme: Let forums override preferred theme
+    search: Search for a post...
+    show_thumbnails: Show thumbnails
+    search_query: Search query
+    notify_on_reply: Notify on reply
+    notify_on_mentions: Notify on mentions
+    sort_by_mode: 'Sort by: %mode%'
+    filter_on_mode: 'Filter on: %mode%'
+    from_time: 'From: %time%'
+    last_message: Last message
+    participants: Participants
+
+log:
+    comment_deletion: '%user% deleted comment by %author% in "%submission%"'
+    submission_deletion: '%user% deleted submission "%title%" by %author%'
+    submission_deletion_with_reason: '%user% deleted submission "%title%" by %author%. Reason: "%reason%"'
+    submission_lock: '%user% locked submission "%title%" by %author%'
+    submission_unlock: '%user% unlocked submission "%title%" by %author%'
+    ban: '%user% banned %banned% (expires: %expires%). Reason: "%reason%"'
+    unban: '%user% unbanned %banned%. Reason: "%reason%"'
+
+login_form:
+    log_in: Log in
+    username: Username
+    password: Password
+    reset_password: Reset password?
+
+markdown_type:
+    help: Syntax reference
+
+message_form:
+    title: Title
+    message: Message
+    send: Send
+    reply: Reply
+
+moderator_form:
+    user: Username
+    submit: Add as moderator
+
+nav:
+    appearance: Appearance
+    create_theme: Create theme
+    delete_forum: Delete forum
+    themes: Themes
+    submit: Submit
+    log_in: Log in
+    log_out: Log out
+    profile: Profile
+    register: Sign up
+    my_account: My account
+    user_settings: User settings
+    forums: Forums
+    submissions: Submissions
+    comments: Comments
+    messages: Messages
+    wiki: Wiki
+    next: Next
+    previous: Previous
+    moderated: Moderated
+    bans: Bans
+    ban_history: Ban history
+    block_user: Block user
+    block_list: Block list
+    edit_biography: Edit biography
+    moderation_log: Moderation log
+    user_bans: User bans
+    ip_bans: IP bans
+    add_ban: Add ban
+    css: CSS
+    theme_settings: Theme settings
+    filter_results: Filter results
+    users: Users
+    forum_bans: Forum bans
+    forum_categories: Forum categories
+    new_category: New category
+    webhooks: Webhooks
+    add_webhook: Add webhook
+    hidden_forums: Hidden forums
+    recent_comments: Recent comments
+    notifications: Notifications
+    notifications_count: 'Notifications (%count%)'
+
+placeholder:
+    choose_one: Choose one…
+    default: (default)
+    repeat: (repeat)
+
+prompt:
+    confirm_comment_delete: Are you sure you want to delete this comment?
+    confirm_message_delete: Are you sure you want to delete this message?
+    confirm_submission_delete: Are you sure you want to delete this submission?
+    confirm_wiki_delete: Are you sure you want to delete this wiki page? It will be permanently lost forever.
+
+request_password_reset:
+    title: Request password reset link
+    multiple_accounts_notice: >
+        If you have several accounts registered to one email address, you will
+        receive one email per account.
+    no_confirmation_notice: >
+        If you never receive an email, the address you specified is probably
+        incorrect. For privacy reasons we will not confirm if a user with the
+        specified email address actually exists.
+
+request_password_reset_form:
+    email: Email address
+    submit: Submit
+
+reset_password:
+    email_subject: '%site_name% - Reset password for user %username%'
+
+    # this should be kept at 76 columns --------------------------------------------
+    email_body: |
+        Someone requested a password reset for your %site_name% account. To reset
+        your password, click the link below:
+
+        %reset_link%
+
+        If you did not request a password reset, you can safely ignore this message.
+        The link will expire after 24 hours.
+
+    title: Resetting password
+
+site_footer:
+    version: Running %app% %version% (%branch%)
+
+submission_form:
+    title: Title
+    url: URL
+    body: Body
+    forum: Forum
+    sticky: Sticky
+    create: Create submission
+    edit: Edit submission
+    delete: Delete submission
+    confirm_delete: Are you sure you want to delete this submission?
+
+submissions:
+    comments: '{0} No comments|{1} %count% comment|[1,Inf[ %count% comments'
+    edit: Edit
+    info_with_forum_name: Submitted by %submitter% %timestamp% in %forum%
+    info_without_forum_name: Submitted by %submitter% %timestamp%
+    info_at_timestamp: at %timestamp%
+    sort_by_hot: Hot
+    sort_by_new: New
+    sort_by_top: Top
+    sort_by_controversial: Controversial
+    sort_by_most_commented: Most commented
+    time_all: All time
+    time_year: Past year
+    time_month: Past month
+    time_week: Past week
+    time_day: Past 24 hours
+    total_votes: '{1} %count% point|[0,Inf[ %count% points'
+    vote_stats: (+%up%, −%down%)
+    edit_info: (edited %edited_at%)
+    moderator_info: (edited by a moderator %edited_at%)
+    new_comments: '(%count% new)'
+
+time:
+    on_timestamp: on %timestamp%
+    earlier_format: '%relative_time% earlier'
+    later_format: '%relative_time% later'
+
+title:
+    delete_forum: Delete forum %forum%
+    forum_appearance: Appearance for %forum%
+    showing_revision: 'Showing revision #%revision% of page %path%'
+    editing_forum: Editing forum %forum%
+    create_submission: Create submission
+    editing_submission: Editing submission %title%
+    log_in: Log in
+    sign_up: Sign up
+    submissions_in_featured_forums: Submissions in featured forums
+    new_theme: New theme
+    editing_theme: Editing theme %name%
+    custom_themes: Custom themes
+    bans_in_forum: Bans in %forum%
+    showing_ban_history_for_user_in_forum: Showing ban history for %user% in %forum%
+    banning_user_from_forum: Banning %user% from %forum%
+    unbanning_user_from_forum: Unbanning %user% from %forum%
+    block_list: Block list
+    blocking_user: Blocking %user%
+    recent_comments: Recent comments
+    recent_comments_forum: Recent comments in %forum%
+    history_for_theme: Showing history for theme %theme%
+    viewing_theme_source: Viewing source of %theme%
+    messages: Messages
+    editing_biography_for_user: Editing biography for %user%
+    showing_moderation_log_for_forum: Showing moderation log for %forum%
+    active_global_user_bans: Active, global user bans
+    ip_bans: Banned IP addresses
+    ban_user: Banning %user%
+    unban_user: Unbanning %user%
+    global_moderation_log: Global moderation log
+    delete_submission: Delete submission
+    list_of_users: 'List of users, page #%page%'
+    user_forum_bans: "%user%'s forum bans"
+    manage_forum_categories: Manage forum categories
+    create_forum_category: Create forum category
+    editing_forum_category: 'Editing forum category: %category%'
+    wiki_diff: Showing difference between revisions %from% and %to%
+    add_forum_webhook: Adding webhook for %forum%
+    editing_forum_webhook: Editing webhook in %forum%
+    forum_webhooks: Webhooks for %forum%
+    search_site: Search the site
+    search_forum: Search this forum
+    hidden_forums: Hidden forums
+    notifications: Notifications
+
+user:
+    submissions: Submissions
+    comments: Comments
+    moderates: '%username% is a moderator on:'
+    username_rules: Allowed characters are A-Z, a-z, 0-9 and underscore.
+    password_rules: Minimum of 8 characters; maximum of 72 due to limitations of the bcrypt algorithm.
+    email_optional: Providing an email address is optional. We will only use it for resetting passwords.
+    message: Send message
+    registered: Registered %timestamp%
+
+user_flag:
+    post_as_label: Post as
+    none_label: (none)
+    admin: admin
+    admin_label: Admin
+    moderator: moderator
+    moderator_label: Moderator
+
+user_form:
+    username: Username
+    password: Password
+    repeat_password: Password (repeat)
+    new_password: New password
+    repeat_new_password: New password (repeat)
+    email: Email
+    register: Register
+    verification: Verification
+    save: Save changes
+
+user_settings:
+    title: Editing user settings for %username%
+
+user_settings_form:
+    locale: Language
+    night_mode: Night mode
+    save: Save changes
+
+wiki:
+    not_found_title: Page not found
+    not_found_message: The requested page was not found.
+    create_this_page: Create this page
+    editing_title: Editing "%path%"
+    create_title: Creating "%path%"
+    history_title: Showing history for "%path%"
+    revision_time: Revised
+    user: User
+    id_label: ID
+    locked_notice: The page is locked. Only admins can edit it.
+    page_title: Page title
+    path: Path
+    all_pages: All pages
+    page_history: Page history
+    edit_page: Edit page
+    navigation: Navigation
+    last_edited: Last edited by %username% %timestamp%

@@ -1,0 +1,27 @@
+{
+    "extends": "eslint:recommended",
+    "env": {
+        "es6": true,
+        "commonjs": true
+    },
+    "rules": {
+        "brace-style": ["error", "1tbs"],
+        "curly": "error",
+        "comma-dangle": ["error", "always-multiline"],
+        "guard-for-in": "warn",
+        "semi": "error",
+        "semi-style": ["error", "last"]
+    },
+    "overrides": [
+        {
+            "files": ["assets/js/**.js"],
+            "env": {
+                "browser": true
+            },
+            "parser": "babel-eslint",
+            "rules": {
+                "no-console": 0
+            }
+        }
+    ]
+}

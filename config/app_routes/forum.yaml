@@ -1,0 +1,159 @@
+multi:
+    controller: App\Controller\ForumController::multi
+    defaults: { sortBy: hot }
+    path: /f/{names}/{sortBy}
+    requirements:
+        names: '(?:\w{3,25}\+){1,70}\w{3,25}'
+        sortBy: "%submission_sort_modes%"
+
+forum:
+    controller: App\Controller\ForumController::front
+    defaults: { sortBy: hot }
+    path: /f/{forum_name}/{sortBy}
+    methods: [GET]
+    requirements: { sortBy: "%submission_sort_modes%" }
+
+forum_feed:
+    controller: App\Controller\ForumController::feed
+    defaults: { sortBy: hot, _format: xml }
+    path: /f/{forum_name}/{sortBy}.atom
+    methods: [GET]
+    requirements: { sortBy: "%submission_sort_modes%" }
+
+forum_feed_legacy_redirect:
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+    defaults: { route: forum_feed, ignoreAttributes: [page] }
+    path: /f/{forum_name}/{sortBy}/{page}.atom
+    requirements: { page: \d+ }
+
+edit_forum:
+    controller: App\Controller\ForumController::editForum
+    path: /f/{forum_name}/edit
+    methods: [GET, POST]
+
+delete_forum:
+    controller: App\Controller\ForumController::delete
+    path: /f/{forum_name}/delete
+    methods: [GET, POST]
+
+forum_comments:
+    controller: App\Controller\ForumController::comments
+    defaults: { page: 1 }
+    path: /f/{forum_name}/comments/{page}
+    methods: [GET]
+    requirements: { page: \d+ }
+
+forum_appearance:
+    controller: App\Controller\ForumController::appearance
+    path: /f/{forum_name}/appearance
+    methods: [GET, POST]
+
+forum_bans:
+    controller: App\Controller\ForumController::bans
+    defaults: { page: 1 }
+    path: /f/{forum_name}/bans/{page}
+    methods: [GET]
+    requirements: { page: \d+ }
+
+forum_ban_history:
+    controller: App\Controller\ForumController::banHistory
+    defaults: { page: 1 }
+    path: /f/{forum_name}/bans/history/{username}/{page}
+    methods: [GET]
+    requirements: { page: \d+ }
+
+forum_ban:
+    controller: App\Controller\ForumController::ban
+    path: /f/{forum_name}/ban/{username}
+    methods: [GET, POST]
+
+forum_unban:
+    controller: App\Controller\ForumController::unban
+    path: /f/{forum_name}/unban/{username}
+    methods: [GET, POST]
+
+forum_moderators:
+    controller: App\Controller\ForumController::moderators
+    defaults: { page: 1 }
+    path: /f/{forum_name}/moderators/{page}
+    methods: [GET]
+    requirements: { page: \d+ }
+
+add_moderator:
+    controller: App\Controller\ForumController::addModerator
+    path: /f/{forum_name}/add_moderator
+    methods: [GET, POST]
+
+remove_moderator:
+    controller: App\Controller\ForumController::removeModerator
+    path: /f/{forum_name}/remove_moderator/{moderator_id}
+    methods: [POST]
+    requirements: { moderator_id: "%uuid_regex%" }
+
+moderation_log:
+    controller: App\Controller\ForumController::moderationLog
+    defaults: { page: 1 }
+    path: /f/{forum_name}/moderation_log/{page}
+    methods: [GET]
+    requirements: { page: \d+ }
+
+global_moderation_log:
+    controller: App\Controller\ForumController::globalModerationLog
+    defaults: { page: 1 }
+    path: /moderation_log/{page}
+    methods: [GET]
+    requirements: { page: \d+ }
+
+subscribe:
+    controller: App\Controller\ForumController::subscribe
+    defaults: { subscribe: true, _format: html }
+    path: /f/{forum_name}/subscribe.{_format}
+    methods: [POST]
+    requirements: { _format: html|json }
+    options: { expose: true }
+
+unsubscribe:
+    controller: App\Controller\ForumController::subscribe
+    defaults: { subscribe: false, _format: html }
+    path: /f/{forum_name}/unsubscribe.{_format}
+    methods: [POST]
+    requirements: { _format: html|json }
+    options: { expose: true }
+
+create_forum:
+    controller: App\Controller\ForumController::createForum
+    path: /create_forum
+    methods: [GET, POST]
+
+forum_list:
+    controller: App\Controller\ForumController::list
+    defaults: { page: 1, sortBy: by_submissions }
+    path: /forums/{sortBy}/{page}
+    methods: [GET]
+    requirements: { forums: \d+, sortBy: by_name|by_title|by_subscribers|by_submissions }
+
+forum_webhooks:
+    controller: App\Controller\ForumController::webhooks
+    methods: [GET]
+    path: /f/{forum_name}/webhooks
+
+forum_add_webhook:
+    controller: App\Controller\ForumController::addWebhook
+    methods: [GET, POST]
+    path: /f/{forum_name}/add_webhook
+
+forum_edit_webhook:
+    controller: App\Controller\ForumController::editWebhook
+    methods: [GET, POST]
+    path: /f/{forum_name}/edit_webhook/{webhook_id}
+    requirements: { webhook_id: "%uuid_regex%" }
+
+forum_remove_webhook:
+    controller: App\Controller\ForumController::removeWebhook
+    methods: [POST]
+    path: /f/{forum_name}/remove_webhook
+
+forums_by_category:
+    controller: App\Controller\ForumController::listCategories
+    path: /forums/by_category
+    methods: [GET]

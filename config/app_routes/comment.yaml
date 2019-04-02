@@ -1,0 +1,55 @@
+comment_post:
+    controller: App\Controller\CommentController::comment
+    defaults: { comment_id: ~, slug: '-' }
+    path: /f/{forum_name}/{submission_id}/{slug}/comment/{comment_id}
+    methods: [POST]
+    requirements: { submission_id: "%number_regex%", comment_id: "%number_regex%" }
+
+comment_json:
+    controller: App\Controller\CommentController::commentJson
+    defaults: { slug: '-' }
+    methods: [GET]
+    path: /f/{forum_name}/{submission_id}/{slug}/comment/{comment_id}.{_format}
+    requirements: { _format: json, submission_id: "%number_regex%", comment_id: "%number_regex%" }
+
+edit_comment:
+    controller: App\Controller\CommentController::editComment
+    defaults: { slug: '-' }
+    path: /f/{forum_name}/{submission_id}/{slug}/comment/{comment_id}/edit
+    methods: [GET, POST]
+    requirements: { submission_id: "%number_regex%", comment_id: "%number_regex%" }
+
+comment_form:
+    controller: App\Controller\CommentController::commentForm
+    defaults: { comment_id: null }
+    methods: [GET]
+    path: /comment_form/{forumName}/{submissionId}/{commentId}
+    requirements: { submissionId: \d+, commentId: \d+ }
+
+delete_comment:
+    controller: App\Controller\CommentController::deleteComment
+    defaults: { slug: '-' }
+    path: /f/{forum_name}/{submission_id}/{slug}/comment/{comment_id}/delete
+    methods: [POST]
+    requirements: { submission_id: "%number_regex%", comment_id: "%number_regex%" }
+
+softdelete_comment:
+    controller: App\Controller\CommentController::softDeleteComment
+    defaults: { slug: '-' }
+    path: /f/{forum_name}/{submission_id}/{slug}/comment/{comment_id}/soft_delete
+    methods: [POST]
+    requirements: { submission_id: "%number_regex%", comment_id: "%number_regex%" }
+
+comment_list:
+    controller: App\Controller\CommentController::list
+    defaults: { page: 1 }
+    path: /comments/{page}
+    methods: [GET]
+    requirements: { page: \d+ }
+
+comment_vote:
+    controller: App\Controller\VoteController::vote
+    defaults: { _format: html, entityClass: App\Entity\Comment }
+    path: /cv/{id}.{_format}
+    methods: [POST]
+    requirements: { _format: html|json, id: "%number_regex%" }

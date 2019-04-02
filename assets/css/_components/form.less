@@ -1,0 +1,50 @@
+@import (reference) '../_mixins';
+@import (reference) '../_variables';
+
+//
+// Standard, vertical, non-weird forms
+//
+
+// DEPRECATED
+.form {
+  &__errors {
+    margin: 0;
+    padding: 0;
+  }
+
+  &__error {
+    color: var(--fg-red);
+    font-weight: bold;
+    list-style-position: inside;
+    margin: 0;
+  }
+
+  &__row {
+    max-width: 40rem;
+    margin-bottom: 1rem;
+
+    &--markdown {
+      margin-bottom: 0;
+    }
+  }
+
+  &__markdown-help {
+    font-size: smaller;
+    text-align: right;
+    margin-bottom: 0;
+  }
+
+  &__button-row {
+    align-items: stretch !important;
+    display: flex;
+    min-width: 0;
+
+    @media not screen and (min-width: @desktop-min-width) {
+      flex-direction: column;
+    }
+
+    .button {
+      margin-bottom: 1rem;
+    }
+  }
+}
